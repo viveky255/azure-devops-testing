@@ -1,0 +1,35 @@
+pipeline{
+    agent {label 'testing_node'}
+    environment{
+        DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+    }
+        stages{
+            stage ('clone the code'){
+                steps{
+                    git credentialsId: 'gituser', url: 'https://github.com/viveky255/sample-project.git'
+                }
+            }
+        stage ('Build'){
+            steps{
+                sh 'docker build -t viveky255/sampleproject-war .'
+            }
+        }
+        stage ('Login'){
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password --stdin'
+            }
+        }
+        stage ('push'){
+            steps{
+                sh 'docker push viveky255/sampleproject-war'
+                
+            }
+        }
+        
+    }
+    post {
+        always{
+            sh 'docker logout'
+        }
+    }
+}
