@@ -1,0 +1,25 @@
+pipeline{
+    agent any
+    environment {
+        PATH = "$PATH:/opt/maven3.8/bin"
+    }
+        stages{
+            stage ('clonning the clode'){
+                steps{
+                    git credentialsId: 'gituser', url: 'https://github.com/viveky255/sample-project.git'
+                }
+            }
+            stage ('Build'){
+                steps{
+                    sh 'mvn clean install' 
+                }
+            }
+            stage ('sonarqube anaylsis'){
+                steps{
+                     withSonarQubeEnv('sonarqube-8.9.7')
+                     sh "mvn sonar:sonar"
+                }
+            }
+            
+        }
+    }
