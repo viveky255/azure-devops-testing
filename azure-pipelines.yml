@@ -7,8 +7,8 @@ trigger:
 - master
 
 pool:
-  name: testing-agent
-  vmImage: agent-01
+  name: 'testing-agent'
+  vmImage: 'agent-01'
 
 steps:
 - task: Maven@3
