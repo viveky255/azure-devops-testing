@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  name: 'testing-agent'
+  name: 'testing'
   vmImage: 'ubuntu-latest'
 
 steps:
